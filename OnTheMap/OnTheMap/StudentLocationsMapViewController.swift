@@ -56,24 +56,59 @@ class StudentLocationsMapViewController: TopViewController {
         
         loading.startAnimating()
         
-        dataSource.fetchStudents { (finish, errorMessage) -> Void in
+        let request = ParseAPI(urlPath: .StudentLocation)
+        
+        request.urlParameters = [
+            "limit": "100",
+            "order": "-updatedAt"
+        ]
+        
+        ConnectionManager().httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            self.loading.stopAnimating()
-            
-            if finish {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                self.mapView.removeAnnotations(self.mapView.annotations)
+                self.loading.stopAnimating()
                 
-                var annotations = [MKPointAnnotation]()
-                
-                for var student in self.dataSource.students {
+                if success {
                     
-                    annotations.append(student.mapAnnotation)
+                    if let data = response as? JSON, let results = data["results"] as? JSONArray {
+                        
+                        self.dataSource.students = []
+                        
+                        if results.count > 0 {
+                            
+                            for data in results {
+                                
+                                self.dataSource.students.append(StudentInformation(dictionary: data))
+                            }
+                        }
+                        
+                        self.mapView.removeAnnotations(self.mapView.annotations)
+                        
+                        var annotations = [MKPointAnnotation]()
+                        
+                        for var student in self.dataSource.students {
+                            
+                            annotations.append(student.mapAnnotation)
+                        }
+                        
+                        self.mapView.addAnnotations(annotations)
+                        
+                    } else {
+                        
+                        self.presentAlertView(message: "Sorry, there was a problem reading the result of the request. Please try again.")
+                    }
+                    
+                } else if let message = errorMessage {
+                    
+                    self.presentAlertView(withTitle: "Error Message", message: message)
+                    
+                } else {
+                    
+                    self.presentAlertView(message: "Sorry, something went wrong.")
                 }
-                
-                self.mapView.addAnnotations(annotations)
-            }
-        }
+            })
+        })
     }
 }
 

@@ -9,20 +9,15 @@
 import UIKit
 
 class TopViewController: UIViewController {
-
-    lazy var loading: UIActivityIndicatorView = {
+    
+    lazy var loading: CustomLoadingView = {
         
-        let activity = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        activity.color = .blackColor()
-        activity.center = self.view.center
-        self.view.addSubview(activity)
-        return activity
+        return CustomLoadingView(view: self.view)
     }()
     
     lazy var connectionManager: ConnectionManager = {
         
         return ConnectionManager()
     }()
-
     
 }

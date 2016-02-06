@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		B22463E51C53E94F002EDE2A /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22463E41C53E94F002EDE2A /* Authentication.swift */; };
 		B22463E81C5406AB002EDE2A /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22463E71C5406AB002EDE2A /* TopViewController.swift */; };
+		B2D6C9851C664879000068E4 /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D6C9841C664879000068E4 /* CustomLoadingView.swift */; };
+		B2D6C9891C667242000068E4 /* Reach.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D6C9881C667242000068E4 /* Reach.swift */; };
 		B2E8FB781C41AF5000B2082F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E8FB771C41AF5000B2082F /* AppDelegate.swift */; };
 		B2E8FB7A1C41AF5000B2082F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E8FB791C41AF5000B2082F /* LoginViewController.swift */; };
 		B2E8FB7D1C41AF5000B2082F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2E8FB7B1C41AF5000B2082F /* Main.storyboard */; };
@@ -37,6 +39,8 @@
 /* Begin PBXFileReference section */
 		B22463E41C53E94F002EDE2A /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		B22463E71C5406AB002EDE2A /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
+		B2D6C9841C664879000068E4 /* CustomLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
+		B2D6C9881C667242000068E4 /* Reach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reach.swift; sourceTree = "<group>"; };
 		B2E8FB741C41AF5000B2082F /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E8FB771C41AF5000B2082F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2E8FB791C41AF5000B2082F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -80,8 +84,25 @@
 			isa = PBXGroup;
 			children = (
 				B22463E71C5406AB002EDE2A /* TopViewController.swift */,
+				B2D6C9841C664879000068E4 /* CustomLoadingView.swift */,
 			);
 			name = SubClasses;
+			sourceTree = "<group>";
+		};
+		B2D6C9861C667242000068E4 /* Imported Modules */ = {
+			isa = PBXGroup;
+			children = (
+				B2D6C9871C667242000068E4 /* Reach */,
+			);
+			path = "Imported Modules";
+			sourceTree = "<group>";
+		};
+		B2D6C9871C667242000068E4 /* Reach */ = {
+			isa = PBXGroup;
+			children = (
+				B2D6C9881C667242000068E4 /* Reach.swift */,
+			);
+			path = Reach;
 			sourceTree = "<group>";
 		};
 		B2E8FB6B1C41AF5000B2082F = {
@@ -113,6 +134,7 @@
 				B2E8FB951C42904900B2082F /* Managers */,
 				B22463E61C540677002EDE2A /* SubClasses */,
 				B2E8FB9B1C42ADEC00B2082F /* Others */,
+				B2D6C9861C667242000068E4 /* Imported Modules */,
 				B2E8FB7E1C41AF5000B2082F /* Assets.xcassets */,
 				B2E8FB831C41AF5000B2082F /* Info.plist */,
 			);
@@ -269,11 +291,13 @@
 				B2E8FBA11C42B09500B2082F /* OnTheMapHelper.swift in Sources */,
 				B2E8FBA61C42CB7900B2082F /* String+Custom.swift in Sources */,
 				B2E8FBB41C434F4B00B2082F /* StudentsData.swift in Sources */,
+				B2D6C9891C667242000068E4 /* Reach.swift in Sources */,
 				B2E8FBB21C434A4F00B2082F /* AuthUser.swift in Sources */,
 				B2E8FB8C1C41D83900B2082F /* UITextField+Custom.swift in Sources */,
 				B2E8FB971C42908100B2082F /* ConnectionManager.swift in Sources */,
 				B22463E51C53E94F002EDE2A /* Authentication.swift in Sources */,
 				B2E8FBAC1C4340C200B2082F /* StudentLocationsListViewController.swift in Sources */,
+				B2D6C9851C664879000068E4 /* CustomLoadingView.swift in Sources */,
 				B2E8FB7A1C41AF5000B2082F /* LoginViewController.swift in Sources */,
 				B2E8FB9F1C42AF1000B2082F /* ParseAPI.swift in Sources */,
 				B2E8FB931C41EDE000B2082F /* Constant.swift in Sources */,

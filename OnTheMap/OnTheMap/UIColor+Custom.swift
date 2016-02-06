@@ -40,4 +40,9 @@ extension UIColor {
         
         return UIColor(red: 0/255, green: 0/255, blue: 139/255, alpha: 1.0)
     }
+    
+    class func customBlackForLoadingColor() -> UIColor {
+        
+        return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
+    }
 }

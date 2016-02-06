@@ -57,16 +57,52 @@ class StudentLocationsListViewController: TopViewController {
         
         loading.startAnimating()
         
-        dataSource.fetchStudents { (finish, errorMessage) -> Void in
+        let request = ParseAPI(urlPath: .StudentLocation)
+        
+        request.urlParameters = [
+            "limit": "100",
+            "order": "-updatedAt"
+        ]
+        
+        ConnectionManager().httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            self.loading.stopAnimating()
-            
-            if finish {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                self.tableView.reloadData()
-            }
-        }
+                self.loading.stopAnimating()
+                
+                if success {
+                    
+                    if let data = response as? JSON, let results = data["results"] as? JSONArray {
+                        
+                        self.dataSource.students = []
+                        
+                        if results.count > 0 {
+                            
+                            for data in results {
+                                
+                                self.dataSource.students.append(StudentInformation(dictionary: data))
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
+                        
+                    } else {
+                        
+                        self.presentAlertView(message: "Sorry, there was a problem reading the result of the request. Please try again.")
+                    }
+                    
+                } else if let message = errorMessage {
+                    
+                    self.presentAlertView(withTitle: "Error Message", message: message)
+                    
+                } else {
+                    
+                    self.presentAlertView(message: "Sorry, something went wrong.")
+                }
+            })
+        })
     }
+
 }
 
 // MARK UITableViewDataSource

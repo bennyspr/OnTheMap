@@ -21,6 +21,19 @@ class ConnectionManager: NSObject {
     
     func httpRequest(requestAPI requestAPI: RequestAPIProtocol, completion: ((AnyObject?, Bool, String?) -> Void)) {
         
+        switch Reach().connectionStatus() {
+            
+        case .Unknown, .Offline:
+            
+            completion(nil, false, "Unable to connect to the Internet. Please verify your network connection.")
+            return
+            
+        default:
+            break
+        }
+        
+        print(requestAPI.url())
+        
         let request = NSMutableURLRequest(URL: requestAPI.url())
         
         request.HTTPMethod = requestAPI.httpMethod().rawValue
@@ -64,11 +77,15 @@ class ConnectionManager: NSObject {
         
         let session = NSURLSession.sharedSession()
         
+        session.configuration.timeoutIntervalForRequest = 30.0
+        
+        session.configuration.timeoutIntervalForResource = 60.0
+        
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                completion(nil, false, "There was an error with your request: \(error)")
+                completion(nil, false, "There was an error with your request: \(error!.localizedDescription)")
                 print("There was an error with your request: \(error)")
                 return
             }

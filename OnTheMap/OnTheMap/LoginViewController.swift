@@ -109,10 +109,14 @@ class LoginViewController: TopViewController {
                             
                             self.presentAlertView(message: message)
                             
+                        } else if let message = errorMessage {
+                            
+                            self.presentAlertView(withTitle: "Error Message", message: message)
+                            
                         } else {
                             
                             self.presentAlertView(message: "Sorry, something went wrong.")
-                            print("Error Message:\n\(errorMessage)\n")
+                            print("\nSomething went wrong:\n\n\(errorMessage)\n")
                         }
                     })
                 })
