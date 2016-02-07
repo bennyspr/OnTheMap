@@ -72,17 +72,6 @@
                                             <action selector="handleSignUpButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tPa-WQ-6Sk"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QMW-Mt-jlT">
-                                        <rect key="frame" x="8" y="328" width="264" height="45"/>
-                                        <color key="backgroundColor" red="0.44512078510000003" green="0.26438603329999999" blue="0.1009117731" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="45" id="MLU-pb-bSg"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" title="FB Login">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yFE-hr-MdQ">
                                         <rect key="frame" x="8" y="116" width="264" height="45"/>
                                         <color key="backgroundColor" red="0.95686274509803915" green="0.95294117647058818" blue="0.78823529411764703" alpha="1" colorSpace="calibratedRGB"/>
@@ -92,23 +81,30 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet"/>
                                     </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j0c-di-VfB" customClass="FBSDKLoginButton">
+                                        <rect key="frame" x="8" y="328" width="264" height="45"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="ZoX-qG-ZXn"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Fo1-rf-F4f" firstAttribute="top" secondItem="yFE-hr-MdQ" secondAttribute="bottom" constant="8" id="1Ma-Sd-LxW"/>
                                     <constraint firstItem="Fo1-rf-F4f" firstAttribute="leading" secondItem="Kvu-MB-mfg" secondAttribute="leading" constant="8" id="4JP-0G-aIc"/>
                                     <constraint firstAttribute="width" constant="280" id="9Zq-g4-Jfp"/>
-                                    <constraint firstAttribute="trailing" secondItem="QMW-Mt-jlT" secondAttribute="trailing" constant="8" id="D4F-5Z-KbI"/>
                                     <constraint firstAttribute="height" constant="381" id="Dkn-CV-nDF"/>
+                                    <constraint firstItem="j0c-di-VfB" firstAttribute="leading" secondItem="Kvu-MB-mfg" secondAttribute="leading" constant="8" id="HLl-l7-fYu"/>
+                                    <constraint firstAttribute="trailing" secondItem="j0c-di-VfB" secondAttribute="trailing" constant="8" id="Ixk-ns-UQ1"/>
                                     <constraint firstItem="KQB-x0-oXC" firstAttribute="centerX" secondItem="Kvu-MB-mfg" secondAttribute="centerX" id="K2b-qd-IMX"/>
                                     <constraint firstItem="yFE-hr-MdQ" firstAttribute="top" secondItem="evn-Og-Yh5" secondAttribute="bottom" constant="19" id="M9a-DP-kL0"/>
                                     <constraint firstAttribute="trailing" secondItem="yFE-hr-MdQ" secondAttribute="trailing" constant="8" id="MJ1-bP-wtV"/>
                                     <constraint firstAttribute="trailing" secondItem="Fo1-rf-F4f" secondAttribute="trailing" constant="8" id="NbD-UA-OaL"/>
                                     <constraint firstItem="NKP-vR-Wt9" firstAttribute="leading" secondItem="Kvu-MB-mfg" secondAttribute="leading" constant="8" id="PgF-Te-GPk"/>
                                     <constraint firstAttribute="trailing" secondItem="evn-Og-Yh5" secondAttribute="trailing" constant="8" id="Xq6-si-bv6"/>
+                                    <constraint firstItem="j0c-di-VfB" firstAttribute="top" secondItem="NKP-vR-Wt9" secondAttribute="bottom" constant="8" id="ZVh-df-05u"/>
                                     <constraint firstItem="evn-Og-Yh5" firstAttribute="leading" secondItem="Kvu-MB-mfg" secondAttribute="leading" constant="8" id="crY-B6-fVN"/>
-                                    <constraint firstItem="QMW-Mt-jlT" firstAttribute="leading" secondItem="Kvu-MB-mfg" secondAttribute="leading" constant="8" id="d9a-2s-r7f"/>
-                                    <constraint firstAttribute="bottom" secondItem="QMW-Mt-jlT" secondAttribute="bottom" constant="8" id="dQm-dt-GWk"/>
                                     <constraint firstItem="evn-Og-Yh5" firstAttribute="top" secondItem="KQB-x0-oXC" secondAttribute="bottom" constant="8" id="e5G-fr-RQd"/>
                                     <constraint firstItem="BRF-Wn-x2H" firstAttribute="leading" secondItem="Kvu-MB-mfg" secondAttribute="leading" constant="8" id="eOo-3E-VMr"/>
                                     <constraint firstItem="BRF-Wn-x2H" firstAttribute="top" secondItem="Fo1-rf-F4f" secondAttribute="bottom" constant="8" id="ell-kV-get"/>
@@ -116,7 +112,6 @@
                                     <constraint firstItem="yFE-hr-MdQ" firstAttribute="leading" secondItem="Kvu-MB-mfg" secondAttribute="leading" constant="8" id="hLK-A1-mKp"/>
                                     <constraint firstItem="KQB-x0-oXC" firstAttribute="top" secondItem="Kvu-MB-mfg" secondAttribute="top" constant="8" id="lPE-EC-ef6"/>
                                     <constraint firstAttribute="trailing" secondItem="BRF-Wn-x2H" secondAttribute="trailing" constant="8" id="wq5-xh-FBf"/>
-                                    <constraint firstItem="QMW-Mt-jlT" firstAttribute="top" secondItem="NKP-vR-Wt9" secondAttribute="bottom" constant="8" id="xQP-mS-T3V"/>
                                     <constraint firstAttribute="trailing" secondItem="NKP-vR-Wt9" secondAttribute="trailing" constant="8" id="yir-cR-KkR"/>
                                 </constraints>
                             </view>
@@ -130,7 +125,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="emailTextField" destination="yFE-hr-MdQ" id="698-bc-hzY"/>
-                        <outlet property="fbLoginButton" destination="QMW-Mt-jlT" id="gLU-wq-oeF"/>
+                        <outlet property="fbLoginButton" destination="j0c-di-VfB" id="1BR-8v-L43"/>
                         <outlet property="loginButton" destination="BRF-Wn-x2H" id="7iV-DW-MZ0"/>
                         <outlet property="passwordTextField" destination="Fo1-rf-F4f" id="Dq8-9O-QOi"/>
                         <outlet property="signUpButton" destination="NKP-vR-Wt9" id="y3s-CV-rkF"/>
@@ -181,11 +176,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ttC-va-p4n">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="oVy-Pa-vv6">
-                            <connections>
-                                <action selector="handleLogoutButtonAction:" destination="uez-l0-Yr2" id="DEt-FU-Xjl"/>
-                            </connections>
-                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="refresh" id="Kga-jT-KAc">
                                 <connections>
@@ -235,11 +225,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8SS-QQ-xua">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="bU8-wG-daV">
-                            <connections>
-                                <action selector="handleLogoutButtonAction:" destination="CC2-qI-fp4" id="gAB-Gx-Zcw"/>
-                            </connections>
-                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="refresh" id="niD-i6-R8L">
                                 <connections>
@@ -344,7 +329,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDX-CH-TzI">
                                         <rect key="frame" x="89" y="20" width="143" height="30"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="143" id="CfW-93-oNX"/>
                                             <constraint firstAttribute="height" constant="30" id="GSS-NE-pbA"/>

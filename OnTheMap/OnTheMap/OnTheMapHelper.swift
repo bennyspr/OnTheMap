@@ -6,9 +6,9 @@
 //  Copyright © 2016 Benny Rodriguez. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class OnTheMapHelper {
+class OnTheMapHelper: NSObject {
     
     // MARK: Escape HTML Parameters
     class func escapedParameters(parameters: [String : AnyObject]) -> String {
@@ -30,4 +30,5 @@ class OnTheMapHelper {
         
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
+
 }

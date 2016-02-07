@@ -29,6 +29,7 @@ class AuthUser {
     var firstName: String?
     var lastName: String?
     var studentInformation: StudentInformation?
+    var fbAccessToken: String?
     
     private init() {}
     

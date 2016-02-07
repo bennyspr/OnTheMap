@@ -32,8 +32,6 @@ class ConnectionManager: NSObject {
             break
         }
         
-        print(requestAPI.url())
-        
         let request = NSMutableURLRequest(URL: requestAPI.url())
         
         request.HTTPMethod = requestAPI.httpMethod().rawValue

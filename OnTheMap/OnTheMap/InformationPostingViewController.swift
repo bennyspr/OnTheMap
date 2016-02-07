@@ -35,8 +35,6 @@ class InformationPostingViewController: TopViewController {
     
     var selectedPointLocation: CLLocationCoordinate2D!
     
-    var authUser = AuthUser.sharedInstance
-    
     var updateStudentInfo = false
     
     weak var delegate: InformationPostingViewControllerDelegate?

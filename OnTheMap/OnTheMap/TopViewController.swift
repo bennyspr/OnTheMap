@@ -20,4 +20,15 @@ class TopViewController: UIViewController {
         return ConnectionManager()
     }()
     
+    lazy var dataSource: StudentsData = {
+        
+        return StudentsData.sharedInstance
+    }()
+    
+    lazy var authUser: AuthUser = {
+       
+        return AuthUser.sharedInstance
+    }()
+    
+    
 }

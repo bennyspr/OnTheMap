@@ -9,22 +9,22 @@
 import UIKit
 
 struct Constant {
-    
+
     struct Udacity {
-        
+
         static let baseURL = "https://www.udacity.com/api/"
-        
+
         static let facebookAppID = "FACEBOOK_APP_ID"
-        
+
         static let signupURL = "https://www.udacity.com/account/auth#!/signup"
     }
-    
+
     struct Parse {
-        
+
         static let baseURL = "https://api.parse.com/1/classes/"
-        
+
         static let applicationID = "APPLICATION_ID"
-        
+
         static let restAPIKey = "REST_API_KEY"
     }
 }

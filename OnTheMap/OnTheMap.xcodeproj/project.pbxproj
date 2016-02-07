@@ -11,6 +11,8 @@
 		B22463E81C5406AB002EDE2A /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22463E71C5406AB002EDE2A /* TopViewController.swift */; };
 		B2D6C9851C664879000068E4 /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D6C9841C664879000068E4 /* CustomLoadingView.swift */; };
 		B2D6C9891C667242000068E4 /* Reach.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D6C9881C667242000068E4 /* Reach.swift */; };
+		B2D6C98C1C66933A000068E4 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2D6C98B1C66933A000068E4 /* FBSDKCoreKit.framework */; };
+		B2D6C98E1C6696D6000068E4 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2D6C98D1C6696D6000068E4 /* FBSDKLoginKit.framework */; };
 		B2E8FB781C41AF5000B2082F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E8FB771C41AF5000B2082F /* AppDelegate.swift */; };
 		B2E8FB7A1C41AF5000B2082F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E8FB791C41AF5000B2082F /* LoginViewController.swift */; };
 		B2E8FB7D1C41AF5000B2082F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2E8FB7B1C41AF5000B2082F /* Main.storyboard */; };
@@ -41,6 +43,8 @@
 		B22463E71C5406AB002EDE2A /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		B2D6C9841C664879000068E4 /* CustomLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
 		B2D6C9881C667242000068E4 /* Reach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reach.swift; sourceTree = "<group>"; };
+		B2D6C98B1C66933A000068E4 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		B2D6C98D1C6696D6000068E4 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		B2E8FB741C41AF5000B2082F /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E8FB771C41AF5000B2082F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2E8FB791C41AF5000B2082F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2E8FBAE1C43413000B2082F /* MapKit.framework in Frameworks */,
+				B2D6C98C1C66933A000068E4 /* FBSDKCoreKit.framework in Frameworks */,
+				B2D6C98E1C6696D6000068E4 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,10 +111,19 @@
 			path = Reach;
 			sourceTree = "<group>";
 		};
+		B2D6C98A1C669279000068E4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B2D6C98D1C6696D6000068E4 /* FBSDKLoginKit.framework */,
+				B2D6C98B1C66933A000068E4 /* FBSDKCoreKit.framework */,
+				B2E8FBAD1C43413000B2082F /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B2E8FB6B1C41AF5000B2082F = {
 			isa = PBXGroup;
 			children = (
-				B2E8FBAD1C43413000B2082F /* MapKit.framework */,
 				B2E8FB761C41AF5000B2082F /* OnTheMap */,
 				B2E8FB751C41AF5000B2082F /* Products */,
 			);
@@ -135,6 +150,7 @@
 				B22463E61C540677002EDE2A /* SubClasses */,
 				B2E8FB9B1C42ADEC00B2082F /* Others */,
 				B2D6C9861C667242000068E4 /* Imported Modules */,
+				B2D6C98A1C669279000068E4 /* Frameworks */,
 				B2E8FB7E1C41AF5000B2082F /* Assets.xcassets */,
 				B2E8FB831C41AF5000B2082F /* Info.plist */,
 			);
@@ -415,6 +431,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -427,6 +447,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

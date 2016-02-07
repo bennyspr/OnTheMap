@@ -7,16 +7,29 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class StudentLocationsListViewController: TopViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var dataSource = StudentsData.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if  authUser.fbAccessToken != nil {
+            
+            let fbLogoutButton = FBSDKLoginButton(frame: CGRect(x: 0, y: 0, width: 80, height: 24))
+            
+            fbLogoutButton.delegate = self
+            
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: fbLogoutButton)
+            
+        } else {
+            
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "handleLogoutButtonAction")
+        }
+        
         if dataSource.students.count == 0 {
             
             fetchStudents()
@@ -33,7 +46,7 @@ class StudentLocationsListViewController: TopViewController {
         }
     }
 
-    @IBAction func handleLogoutButtonAction(sender: AnyObject) {
+    internal func handleLogoutButtonAction() {
         
         loading.startAnimating()
         
@@ -156,4 +169,18 @@ extension StudentLocationsListViewController: InformationPostingViewControllerDe
         
         fetchStudents()
     }
+}
+
+// MARK: FBSDKLoginButtonDelegate
+extension StudentLocationsListViewController: FBSDKLoginButtonDelegate {
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+        handleLogoutButtonAction()
+    }
+    
 }

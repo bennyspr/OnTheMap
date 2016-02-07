@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class LoginViewController: TopViewController {
 
@@ -14,9 +15,8 @@ class LoginViewController: TopViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
-    @IBOutlet weak var fbLoginButton: UIButton!
+    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
     
-    let authUser = AuthUser.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +27,11 @@ class LoginViewController: TopViewController {
         
         passwordTextField.delegate = self
         
-        // TODO: Implement FB Login
-        fbLoginButton.hidden = true
+        // fbLoginButton.readPermissions = ["public_profile", "email"];
+        
+        fbLoginButton.delegate = self
+        
+        fbLoginButton.backgroundColor = .clearColor()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -62,64 +65,9 @@ class LoginViewController: TopViewController {
                     ]
                 ]
                 
-                self.loading.startAnimating()
+                self.authUser.fbAccessToken = nil
                 
-                self.connectionManager.httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
-                    
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        self.loading.stopAnimating()
-                        
-                        if success {
-                            
-                            if let data = response as? JSON, let account = data["account"] as? JSON, let session = data["session"] as? JSON {
-                                
-                                if let registered = account["registered"] as? Bool, let key = account["key"] as? String, let id = session["id"] as? String, let expiration = session["expiration"] as? String {
-                                    
-                                    if registered {
-                                        
-                                        let user = AuthUser.sharedInstance
-                                        
-                                        user.accountRegistered = registered
-                                        
-                                        user.accountKey = key
-                                        
-                                        user.sessionID = id
-                                        
-                                        user.sessionExpiration = expiration
-                                        
-                                        self.getPublicUserData(key)
-                                        
-                                    } else {
-                                        
-                                        self.presentAlertView(message: "Sorry, the user does not have Udacity account.")
-                                    }
-                                    
-                                } else {
-                                    
-                                    self.presentAlertView(message: "Sorry, There was a problem getting the user information. Please try again.")
-                                }
-                                
-                            } else {
-                                
-                                self.presentAlertView(message: "Sorry, there's a network problem. Please try again.")
-                            }
-                            
-                        } else if let data = response as? JSON, let message = data["error"] as? String {
-                            
-                            self.presentAlertView(message: message)
-                            
-                        } else if let message = errorMessage {
-                            
-                            self.presentAlertView(withTitle: "Error Message", message: message)
-                            
-                        } else {
-                            
-                            self.presentAlertView(message: "Sorry, something went wrong.")
-                            print("\nSomething went wrong:\n\n\(errorMessage)\n")
-                        }
-                    })
-                })
+                self.tryToCreateSession(request)
             }
         }
     }
@@ -213,6 +161,70 @@ class LoginViewController: TopViewController {
         }
     }
     
+    private func tryToCreateSession(request: RequestAPIProtocol) {
+        
+        self.loading.startAnimating()
+        
+        self.connectionManager.httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.loading.stopAnimating()
+                
+                if success {
+                    
+                    if let data = response as? JSON, let account = data["account"] as? JSON, let session = data["session"] as? JSON {
+                        
+                        if let registered = account["registered"] as? Bool, let key = account["key"] as? String, let id = session["id"] as? String, let expiration = session["expiration"] as? String {
+                            
+                            if registered {
+                                
+                                self.authUser.accountRegistered = registered
+                                
+                                self.authUser.accountKey = key
+                                
+                                self.authUser.sessionID = id
+                                
+                                self.authUser.sessionExpiration = expiration
+                                
+                                self.getPublicUserData(key)
+                                
+                                return
+                                
+                            } else {
+                                
+                                self.presentAlertView(message: "Sorry, the user does not have Udacity account.")
+                            }
+                            
+                        } else {
+                            
+                            self.presentAlertView(message: "Sorry, There was a problem getting the user information. Please try again.")
+                        }
+                        
+                    } else {
+                        
+                        self.presentAlertView(message: "Sorry, there's a network problem. Please try again.")
+                    }
+                    
+                } else if let data = response as? JSON, let message = data["error"] as? String {
+                    
+                    self.presentAlertView(message: message)
+                    
+                } else if let message = errorMessage {
+                    
+                    self.presentAlertView(withTitle: "Error Message", message: message)
+                    
+                } else {
+                    
+                    self.presentAlertView(message: "Sorry, something went wrong.")
+                    print("\nSomething went wrong:\n\n\(errorMessage)\n")
+                }
+                
+                FBSDKLoginManager().logOut()
+            })
+        })
+    }
+    
     @IBAction func handleSignUpButtonAction(sender: UIButton) {
         
         hideKeyboard()
@@ -231,5 +243,43 @@ extension LoginViewController: UITextFieldDelegate {
         
         return true
     }
+}
+
+// MARK: FBSDKLoginButtonDelegate
+extension LoginViewController: FBSDKLoginButtonDelegate {
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        
+        if result.isCancelled {
+            return
+        }
+        
+        guard (error == nil) else  {
+            
+            return
+        }
+        
+        if let token = result.token {
+            
+            let request = UdacityAPI(urlPath: .Session, httpMethod: .POST)
+            
+            request.json = [
+                "facebook_mobile": [
+                    "access_token": token.tokenString
+                ]
+            ]
+            
+            self.authUser.fbAccessToken = token.tokenString
+            
+            self.tryToCreateSession(request)
+        }
+        
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+        
+    }
+    
 }
 

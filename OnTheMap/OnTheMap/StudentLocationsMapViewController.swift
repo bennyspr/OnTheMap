@@ -8,16 +8,28 @@
 
 import UIKit
 import MapKit
+import FBSDKLoginKit
 
 class StudentLocationsMapViewController: TopViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    var dataSource = StudentsData.sharedInstance
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if  authUser.fbAccessToken != nil {
+            
+            let fbLogoutButton = FBSDKLoginButton(frame: CGRect(x: 0, y: 0, width: 80, height: 24))
+            
+            fbLogoutButton.delegate = self
+            
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: fbLogoutButton)
+            
+        } else {
+            
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "handleLogoutButtonAction")
+        }
         
         fetchStudents()
     }
@@ -32,7 +44,7 @@ class StudentLocationsMapViewController: TopViewController {
         }
     }
 
-    @IBAction func handleLogoutButtonAction(sender: AnyObject) {
+    internal func handleLogoutButtonAction() {
         
         loading.startAnimating()
         
@@ -157,6 +169,20 @@ extension StudentLocationsMapViewController: InformationPostingViewControllerDel
         
         fetchStudents()
     }
+}
+
+// MARK: FBSDKLoginButtonDelegate
+extension StudentLocationsMapViewController: FBSDKLoginButtonDelegate {
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+        handleLogoutButtonAction()
+    }
+    
 }
 
 
