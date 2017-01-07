@@ -10,9 +10,9 @@ import Foundation
 
 class UdacityAPI: RequestAPIProtocol {
     
-    private let urlPath: UdacityPath!
-    private var pathValues: [String: UdacityPath]?
-    private var method: HTTPRequestMethod!
+    fileprivate let urlPath: UdacityPath!
+    fileprivate var pathValues: [String: UdacityPath]?
+    fileprivate var method: HTTPRequestMethod!
     
     var urlParameters: [String: AnyObject]?
     var json: NSDictionary?
@@ -41,32 +41,32 @@ class UdacityAPI: RequestAPIProtocol {
         self.method = httpMethod
     }
     
-    func url() -> NSURL {
+    func url() -> URL {
         
         var url = Constant.Udacity.baseURL + urlPath.rawValue
         
-        if let values = pathValues where values.count > 0 {
+        if let values = pathValues, values.count > 0 {
             
             var urlVars = [String]()
             
             for (key, value) in values {
                 
                 /* Escape it */
-                let escapedValue = key.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+                let escapedValue = key.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
                 
                 /* Append it */
                 urlVars += [escapedValue! + (value.rawValue.isEmpty ? "" : "/\(value.rawValue)")]
             }
             
-            url += "/" + urlVars.joinWithSeparator("/")
+            url += "/" + urlVars.joined(separator: "/")
         }
         
-        if let parameters = urlParameters where parameters.count > 0  {
+        if let parameters = urlParameters, parameters.count > 0  {
             
             url += OnTheMapHelper.escapedParameters(parameters)
         }
         
-        return NSURL(string: url)!
+        return URL(string: url)!
     }
     
     func httpHeaderFields() -> [HeaderFieldForHTTP] {
@@ -108,8 +108,8 @@ class UdacityAPI: RequestAPIProtocol {
         return method
     }
     
-    func newDataAfterRequest(data: NSData) -> NSData {
+    func newDataAfterRequest(_ data: NSData) -> NSData {
         
-        return data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+        return data.subdata(with: NSMakeRange(5, data.length - 5)) as NSData /* subset response data! */
     }
 }

@@ -31,9 +31,9 @@ class AuthUser {
     var studentInformation: StudentInformation?
     var fbAccessToken: String?
     
-    private init() {}
+    fileprivate init() {}
     
-    func queryingForLocation(completion: (Bool, String?)->Void) {
+    func queryingForLocation(_ completion: @escaping (Bool, String?)->Void) {
         
         guard let key = accountKey else {
             
@@ -45,12 +45,12 @@ class AuthUser {
         
         request.urlParameters = [
         
-            "where": "{\"uniqueKey\":\""+key+"\"}"
+            "where": "{\"uniqueKey\":\""+key+"\"}" as AnyObject
         ]
         
         ConnectionManager().httpRequest(requestAPI: request) { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 if let data = response as? JSON, let results = data["results"] as? JSONArray {
                     

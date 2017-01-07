@@ -12,10 +12,10 @@ extension UIViewController {
     
     func presentAlertView(withTitle title: String? = nil, message: String) {
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
         
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 }

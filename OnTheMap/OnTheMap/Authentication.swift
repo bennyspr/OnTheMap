@@ -10,13 +10,13 @@ import Foundation
 
 class Authentication: NSObject {
     
-    class func logout(completion: ((Bool, String?)->Void)) {
+    class func logout(_ completion: @escaping ((Bool, String?)->Void)) {
         
         let request = UdacityAPI(urlPath: .Session, httpMethod: .DELETE)
         
         ConnectionManager().httpRequest(requestAPI: request) { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 if let data = response as? JSON, let session = data["session"] as? JSON {
                     

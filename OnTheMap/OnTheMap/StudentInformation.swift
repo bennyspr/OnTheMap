@@ -86,7 +86,7 @@ struct StudentInformation {
         
     }
     
-    private func generatePointAnnotationObj() -> MKPointAnnotation {
+    fileprivate func generatePointAnnotationObj() -> MKPointAnnotation {
         
         let annotation = MKPointAnnotation()
         

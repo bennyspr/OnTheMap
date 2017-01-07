@@ -64,17 +64,17 @@ class InformationPostingViewController: TopViewController {
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
         view.endEditing(true)
     }
     
-    private func configureColorsAndStyles() {
+    fileprivate func configureColorsAndStyles() {
     
         findSubmitButton.layer.cornerRadius = 8.0
         
-        findSubmitButton.setTitleColor(.customSteelBlueColor(), forState: .Normal)
+        findSubmitButton.setTitleColor(.customSteelBlueColor(), for: UIControlState())
         
         topLabel.textColor = .customSteelBlueColor()
         
@@ -89,17 +89,17 @@ class InformationPostingViewController: TopViewController {
         webLinkTextField.tintColor = .customLightGrayColor()
     }
     
-    private func searchForLocation(query: String) {
+    fileprivate func searchForLocation(_ query: String) {
         
         loading.startAnimating()
         
         CLGeocoder().geocodeAddressString(query.trim()) { (placemarks, error) in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
             
                 self.loading.stopAnimating()
             
-                if let placemarks = placemarks where placemarks.count > 0  {
+                if let placemarks = placemarks, placemarks.count > 0  {
                     
                     let placePin = placemarks[0]
                     
@@ -129,7 +129,7 @@ class InformationPostingViewController: TopViewController {
         }
     }
     
-    private func configureViewLayoutByStatus(status: InformationPostStatus) {
+    fileprivate func configureViewLayoutByStatus(_ status: InformationPostStatus) {
         
         viewLayoutCurrentStatus = status
         
@@ -137,7 +137,7 @@ class InformationPostingViewController: TopViewController {
             
         case .Find:
             
-            cancelButton.setTitleColor(.customDarkBlueColor(), forState: .Normal)
+            cancelButton.setTitleColor(.customDarkBlueColor(), for: UIControlState())
             
             topView.backgroundColor = .customLightGrayColor()
             
@@ -145,15 +145,15 @@ class InformationPostingViewController: TopViewController {
             
             webLinkTextField.textColor = .customDarkBlueColor()
             
-            webLinkTextField.enabled = false
+            webLinkTextField.isEnabled = false
             
             webLinkTextField.text = "studying"
             
             bottomLabel.text = "today?"
             
-            mapView.hidden = true
+            mapView.isHidden = true
             
-            middleView.hidden = false
+            middleView.isHidden = false
             
             bottomView.backgroundColor = .customLightGrayColor()
             
@@ -166,21 +166,21 @@ class InformationPostingViewController: TopViewController {
                 textView.text = textViewPlaceholder
             }
             
-            findSubmitButton.setTitle("Find on the Map", forState: .Normal)
+            findSubmitButton.setTitle("Find on the Map", for: UIControlState())
             
             break
             
         case .Submit:
             
-            cancelButton.setTitleColor(.whiteColor(), forState: .Normal)
+            cancelButton.setTitleColor(.white, for: UIControlState())
             
             topView.backgroundColor = .customSteelBlueColor()
             
             topLabel.text = ""
             
-            webLinkTextField.textColor = .whiteColor()
+            webLinkTextField.textColor = .white
             
-            webLinkTextField.enabled = true
+            webLinkTextField.isEnabled = true
             
             webLinkTextField.attributedPlaceholder = NSAttributedString(string: textFieldPlaceholder, attributes:[
                 
@@ -197,20 +197,20 @@ class InformationPostingViewController: TopViewController {
 //                
 //                mapView.selectAnnotation(student.mapAnnotation, animated: true)
                 
-                findSubmitButton.setTitle("Update", forState: .Normal)
+                findSubmitButton.setTitle("Update", for: UIControlState())
                 
             } else {
                 
                 webLinkTextField.text = ""
                 
-                findSubmitButton.setTitle("Submit", forState: .Normal)
+                findSubmitButton.setTitle("Submit", for: UIControlState())
             }
             
             bottomLabel.text = ""
             
-            mapView.hidden = false
+            mapView.isHidden = false
             
-            middleView.hidden = true
+            middleView.isHidden = true
             
             bottomView.backgroundColor = .customWhiteColorWithAlpha(0.3)
             
@@ -218,7 +218,7 @@ class InformationPostingViewController: TopViewController {
         }
     }
     
-    private func createStudentInformation(completion: (Bool, String?)->Void) {
+    fileprivate func createStudentInformation(_ completion: @escaping (Bool, String?)->Void) {
         
         let request = ParseAPI(urlPath: .StudentLocation, httpMethod: .POST)
         
@@ -226,7 +226,7 @@ class InformationPostingViewController: TopViewController {
         
         connectionManager.httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 if success {
                     
@@ -262,7 +262,7 @@ class InformationPostingViewController: TopViewController {
         })
     }
     
-    private func updateStudentInformation(completion: (Bool, String?)->Void) {
+    fileprivate func updateStudentInformation(_ completion: @escaping (Bool, String?)->Void) {
         
         let request = ParseAPI(urlPath: .StudentLocation, nextValuesForPath: [authUser.studentInformation!.objectId : .None], httpMethod: .PUT)
         
@@ -270,7 +270,7 @@ class InformationPostingViewController: TopViewController {
         
         connectionManager.httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 if success {
                     
@@ -299,7 +299,7 @@ class InformationPostingViewController: TopViewController {
         })
     }
     
-    private func jsonFromView() -> NSDictionary {
+    fileprivate func jsonFromView() -> NSDictionary {
         
         return [
             "uniqueKey": (authUser.accountKey != nil ? authUser.accountKey : "")!,
@@ -312,12 +312,12 @@ class InformationPostingViewController: TopViewController {
         ]
     }
 
-    @IBAction func handleCancelButtonAction(sender: AnyObject) {
+    @IBAction func handleCancelButtonAction(_ sender: AnyObject) {
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func handleFindSubmitButtonAction(sender: AnyObject) {
+    @IBAction func handleFindSubmitButtonAction(_ sender: AnyObject) {
         
         switch viewLayoutCurrentStatus {
             
@@ -350,7 +350,7 @@ class InformationPostingViewController: TopViewController {
                     
                     if complete {
                         
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.dismiss(animated: true, completion: { () -> Void in
                             
                             self.delegate?.didSuccessFinishPostingLocation(controller: self)
                         })
@@ -373,7 +373,7 @@ class InformationPostingViewController: TopViewController {
                     
                     if complete {
                         
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.dismiss(animated: true, completion: { () -> Void in
                             
                             self.delegate?.didSuccessFinishPostingLocation(controller: self)
                         })
@@ -399,7 +399,7 @@ class InformationPostingViewController: TopViewController {
 // MARK: UITextViewDelegate
 extension InformationPostingViewController: UITextViewDelegate {
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         
         if (textView.text == "") {
             
@@ -411,19 +411,19 @@ extension InformationPostingViewController: UITextViewDelegate {
         textView.resignFirstResponder()
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         
         if (textView.text == textViewPlaceholder) {
             
             textView.text = ""
             
-            textView.textColor = .whiteColor()
+            textView.textColor = .white
         }
         
         textView.becomeFirstResponder()
     }
     
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         if (text == "\n") {
             
@@ -439,7 +439,7 @@ extension InformationPostingViewController: UITextViewDelegate {
 // MARK: UITextFieldDelegate
 extension InformationPostingViewController: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if textField.text == "" {
         
@@ -447,7 +447,7 @@ extension InformationPostingViewController: UITextFieldDelegate {
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField.text == "" {
             
@@ -455,7 +455,7 @@ extension InformationPostingViewController: UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         

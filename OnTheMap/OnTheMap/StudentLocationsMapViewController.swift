@@ -28,17 +28,17 @@ class StudentLocationsMapViewController: TopViewController {
             
         } else {
             
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "handleLogoutButtonAction")
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.plain, target: self, action: #selector(StudentLocationsMapViewController.handleLogoutButtonAction))
         }
         
         fetchStudents()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "segueMapToPost" {
             
-            let controller = segue.destinationViewController as! InformationPostingViewController
+            let controller = segue.destination as! InformationPostingViewController
             
             controller.delegate = self
         }
@@ -54,30 +54,30 @@ class StudentLocationsMapViewController: TopViewController {
             
             if complete {
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
 
-    @IBAction func handleRefreshBarButtonItemAction(sender: AnyObject) {
+    @IBAction func handleRefreshBarButtonItemAction(_ sender: AnyObject) {
         
         fetchStudents()
     }
     
-    private func fetchStudents() {
+    fileprivate func fetchStudents() {
         
         loading.startAnimating()
         
         let request = ParseAPI(urlPath: .StudentLocation)
         
         request.urlParameters = [
-            "limit": "100",
-            "order": "-updatedAt"
+            "limit": "100" as AnyObject,
+            "order": "-updatedAt" as AnyObject
         ]
         
         ConnectionManager().httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 self.loading.stopAnimating()
                 
@@ -127,18 +127,18 @@ class StudentLocationsMapViewController: TopViewController {
 // MARK: MKMapViewDelegate
 extension StudentLocationsMapViewController: MKMapViewDelegate {
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
         
-        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
         if pinView == nil {
             
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.redColor()
-            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            pinView!.pinTintColor = UIColor.red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             
         } else {
             
@@ -148,15 +148,15 @@ extension StudentLocationsMapViewController: MKMapViewDelegate {
         return pinView
     }
     
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if control == view.rightCalloutAccessoryView {
             
-            let app = UIApplication.sharedApplication()
+            let app = UIApplication.shared
             
             if let toOpen = view.annotation?.subtitle! {
                 
-                app.openURL(NSURL(string: toOpen)!)
+                app.openURL(URL(string: toOpen)!)
             }
         }
     }
@@ -173,12 +173,18 @@ extension StudentLocationsMapViewController: InformationPostingViewControllerDel
 
 // MARK: FBSDKLoginButtonDelegate
 extension StudentLocationsMapViewController: FBSDKLoginButtonDelegate {
-    
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+    /*!
+     @abstract Sent to the delegate when the button was used to login.
+     @param loginButton the sender
+     @param result The results of the login
+     @param error The error (if any) from the login
+     */
+    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         
     }
+
     
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         
         handleLogoutButtonAction()
     }

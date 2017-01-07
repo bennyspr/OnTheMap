@@ -27,7 +27,7 @@ class StudentLocationsListViewController: TopViewController {
             
         } else {
             
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "handleLogoutButtonAction")
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.plain, target: self, action: #selector(StudentLocationsListViewController.handleLogoutButtonAction))
         }
         
         if dataSource.students.count == 0 {
@@ -36,11 +36,11 @@ class StudentLocationsListViewController: TopViewController {
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "segueListToPost" {
             
-            let controller = segue.destinationViewController as! InformationPostingViewController
+            let controller = segue.destination as! InformationPostingViewController
             
             controller.delegate = self
         }
@@ -56,30 +56,30 @@ class StudentLocationsListViewController: TopViewController {
             
             if complete {
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
     
-    @IBAction func handleRefreshBarButtonItemAction(sender: AnyObject) {
+    @IBAction func handleRefreshBarButtonItemAction(_ sender: AnyObject) {
         
         fetchStudents()
     }
     
-    private func fetchStudents() {
+    fileprivate func fetchStudents() {
         
         loading.startAnimating()
         
         let request = ParseAPI(urlPath: .StudentLocation)
         
         request.urlParameters = [
-            "limit": "100",
-            "order": "-updatedAt"
+            "limit": "100" as AnyObject,
+            "order": "-updatedAt" as AnyObject
         ]
         
         ConnectionManager().httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 self.loading.stopAnimating()
                 
@@ -121,14 +121,14 @@ class StudentLocationsListViewController: TopViewController {
 // MARK UITableViewDataSource
 extension StudentLocationsListViewController: UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return dataSource.students.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let student = dataSource.students[indexPath.row]
         
@@ -138,12 +138,12 @@ extension StudentLocationsListViewController: UITableViewDataSource {
         
         cell.imageView?.image = UIImage(named: "pin")!
         
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
         
         return cell
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
     }
@@ -153,11 +153,11 @@ extension StudentLocationsListViewController: UITableViewDataSource {
 // MARK UITableViewDelegate
 extension StudentLocationsListViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if let url = dataSource.students[indexPath.row].mediaURL {
         
-            UIApplication.sharedApplication().openURL(NSURL(string: url)!)
+            UIApplication.shared.openURL(URL(string: url)!)
         }
     }
 }
@@ -173,12 +173,12 @@ extension StudentLocationsListViewController: InformationPostingViewControllerDe
 
 // MARK: FBSDKLoginButtonDelegate
 extension StudentLocationsListViewController: FBSDKLoginButtonDelegate {
-    
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+
+    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         
     }
     
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         
         handleLogoutButtonAction()
     }

@@ -31,10 +31,10 @@ class LoginViewController: TopViewController {
         
         fbLoginButton.delegate = self
         
-        fbLoginButton.backgroundColor = .clearColor()
+        fbLoginButton.backgroundColor = .clear
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         emailTextField.text = ""
@@ -42,19 +42,19 @@ class LoginViewController: TopViewController {
         passwordTextField.text = ""
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
         hideKeyboard()
     }
     
-    @IBAction func handleLoginButtonAction(sender: UIButton) {
+    @IBAction func handleLoginButtonAction(_ sender: UIButton) {
         
         hideKeyboard()
         
         validateEmailAndPassword { (success, items) -> () in
             
-            if let items = items where success {
+            if let items = items, success {
                 
                 let request = UdacityAPI(urlPath: .Session, httpMethod: .POST)
                 
@@ -72,7 +72,7 @@ class LoginViewController: TopViewController {
         }
     }
     
-    private func getPublicUserData(userID: String) {
+    fileprivate func getPublicUserData(_ userID: String) {
         
         let request = UdacityAPI(urlPath: .Users, nextValuesForPath: [userID : .None], httpMethod: .GET)
         
@@ -80,7 +80,7 @@ class LoginViewController: TopViewController {
         
         self.connectionManager.httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 self.loading.stopAnimating()
                 
@@ -92,7 +92,7 @@ class LoginViewController: TopViewController {
                         
                         self.authUser.lastName = last_name
                                 
-                        self.performSegueWithIdentifier("presentMap", sender: nil)
+                        self.performSegue(withIdentifier: "presentMap", sender: nil)
                         
                     } else {
                         
@@ -112,12 +112,12 @@ class LoginViewController: TopViewController {
         })
     }
     
-    private func hideKeyboard() {
+    fileprivate func hideKeyboard() {
         
         view.endEditing(true)
     }
     
-    private func configureColorsAndStyles() {
+    fileprivate func configureColorsAndStyles() {
         
         emailTextField.loginStyleWithPlaceholder("Email")
         
@@ -128,7 +128,7 @@ class LoginViewController: TopViewController {
         loginButton.layer.cornerRadius = 5.0
     }
     
-    private func validateEmailAndPassword(completion: (Bool, EmailPassword?) -> ()) {
+    fileprivate func validateEmailAndPassword(_ completion: (Bool, EmailPassword?) -> ()) {
         
         var status = false
         
@@ -161,13 +161,13 @@ class LoginViewController: TopViewController {
         }
     }
     
-    private func tryToCreateSession(request: RequestAPIProtocol) {
+    fileprivate func tryToCreateSession(_ request: RequestAPIProtocol) {
         
         self.loading.startAnimating()
         
         self.connectionManager.httpRequest(requestAPI: request, completion: { (response, success, errorMessage) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 self.loading.stopAnimating()
                 
@@ -225,11 +225,11 @@ class LoginViewController: TopViewController {
         })
     }
     
-    @IBAction func handleSignUpButtonAction(sender: UIButton) {
+    @IBAction func handleSignUpButtonAction(_ sender: UIButton) {
         
         hideKeyboard()
         
-        UIApplication.sharedApplication().openURL(NSURL(string: Constant.Udacity.signupURL)!)
+        UIApplication.shared.openURL(URL(string: Constant.Udacity.signupURL)!)
     }
     
 }
@@ -237,7 +237,7 @@ class LoginViewController: TopViewController {
 // MARK: UITextFieldDelegate
 extension LoginViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         
@@ -247,8 +247,8 @@ extension LoginViewController: UITextFieldDelegate {
 
 // MARK: FBSDKLoginButtonDelegate
 extension LoginViewController: FBSDKLoginButtonDelegate {
-    
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+
+    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         
         if result.isCancelled {
             return
@@ -273,10 +273,9 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             
             self.tryToCreateSession(request)
         }
-        
     }
     
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         
         
     }

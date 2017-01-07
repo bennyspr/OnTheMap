@@ -22,6 +22,6 @@ class StudentsData {
     
     var students = [StudentInformation]()
     
-    private init() {}
+    fileprivate init() {}
     
 }

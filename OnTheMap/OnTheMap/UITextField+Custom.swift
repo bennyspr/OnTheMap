@@ -10,22 +10,22 @@ import UIKit
 
 extension UITextField {
     
-    func loginStyleWithPlaceholder(placeholder: String) {
+    func loginStyleWithPlaceholder(_ placeholder: String) {
         
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: frame.size.height))
         
-        spaceView.backgroundColor = .clearColor()
+        spaceView.backgroundColor = .clear
         
         leftView = spaceView
         
-        leftViewMode = .Always
+        leftViewMode = .always
         
-        borderStyle = .None
+        borderStyle = .none
         
         backgroundColor = .customBurlywoodColor()
         
         attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [
-            NSForegroundColorAttributeName: UIColor.whiteColor()
+            NSForegroundColorAttributeName: UIColor.white
         ])
         
         tintColor = .customOrangeredColor()

@@ -10,9 +10,9 @@ import Foundation
 
 class ParseAPI: RequestAPIProtocol {
     
-    private let urlPath: ParsePath!
-    private var pathValues: [String: ParsePath]?
-    private var method: HTTPRequestMethod!
+    fileprivate let urlPath: ParsePath!
+    fileprivate var pathValues: [String: ParsePath]?
+    fileprivate var method: HTTPRequestMethod!
     
     var urlParameters: [String: AnyObject]?
     var json: NSDictionary?
@@ -41,32 +41,32 @@ class ParseAPI: RequestAPIProtocol {
         self.method = httpMethod
     }
     
-    func url() -> NSURL {
+    func url() -> URL {
         
         var url = Constant.Parse.baseURL + urlPath.rawValue
         
-        if let values = pathValues where values.count > 0 {
+        if let values = pathValues, values.count > 0 {
             
             var urlVars = [String]()
             
             for (key, value) in values {
                 
                 /* Escape it */
-                let escapedValue = key.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
+                let escapedValue = key.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
                 
                 /* Append it */
                 urlVars += [escapedValue! + (value.rawValue.isEmpty ? "" : "/\(value.rawValue)")]
             }
             
-            url += "/" + urlVars.joinWithSeparator("/")
+            url += "/" + urlVars.joined(separator: "/")
         }
         
-        if let parameters = urlParameters where parameters.count > 0  {
+        if let parameters = urlParameters, parameters.count > 0  {
             
             url += OnTheMapHelper.escapedParameters(parameters)
         }
         
-        return NSURL(string: url)!
+        return URL(string: url)!
     }
     
     func httpHeaderFields() -> [HeaderFieldForHTTP] {
@@ -111,7 +111,7 @@ class ParseAPI: RequestAPIProtocol {
         return method
     }
     
-    func newDataAfterRequest(data: NSData) -> NSData {
+    func newDataAfterRequest(_ data: NSData) -> NSData {
         
         return data
     }

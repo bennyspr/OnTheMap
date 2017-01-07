@@ -10,19 +10,19 @@ import UIKit
 
 class CustomLoadingView: NSObject {
     
-    private let backgroundView: UIView!
-    private let activity: UIActivityIndicatorView!
+    fileprivate let backgroundView: UIView!
+    fileprivate let activity: UIActivityIndicatorView!
     
     init(view forView: UIView) {
         
-        activity = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         // activity.color = .blackColor()
         activity.center = forView.center
         
         backgroundView = UIView(frame: forView.frame)
         backgroundView.backgroundColor = .customBlackForLoadingColor()
         backgroundView.addSubview(activity)
-        backgroundView.hidden = true
+        backgroundView.isHidden = true
         
         forView.addSubview(backgroundView)
     }
@@ -30,13 +30,13 @@ class CustomLoadingView: NSObject {
     
     func startAnimating() {
         
-        backgroundView.hidden = false
+        backgroundView.isHidden = false
         activity.startAnimating()
     }
     
     func stopAnimating() {
         
-        backgroundView.hidden = true
+        backgroundView.isHidden = true
         activity.stopAnimating()
     }
 

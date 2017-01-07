@@ -31,7 +31,7 @@ extension UIColor {
         return UIColor(red: 211/255, green: 211/255, blue: 211/255, alpha: 1.0)
     }
     
-    class func customWhiteColorWithAlpha(alpha: CGFloat) -> UIColor {
+    class func customWhiteColorWithAlpha(_ alpha: CGFloat) -> UIColor {
         
         return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: alpha)
     }
