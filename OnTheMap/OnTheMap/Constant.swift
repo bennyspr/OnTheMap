@@ -21,7 +21,7 @@ struct Constant {
 
     struct Parse {
 
-        static let baseURL = "https://api.parse.com/1/classes/"
+        static let baseURL = "https://parse.udacity.com/parse/classes/"
 
         static let applicationID = "APPLICATION_ID"
 

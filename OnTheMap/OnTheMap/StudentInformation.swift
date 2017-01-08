@@ -49,11 +49,19 @@ struct StudentInformation {
         if let latitude = dictionary["latitude"] as? Double {
             
             self.latitude = latitude // 34.7303688
+            
+        } else {
+            
+            self.latitude = 0
         }
         
         if let longitude = dictionary["longitude"] as? Double {
             
             self.longitude = longitude // -86.5861037,
+            
+        } else {
+            
+            self.longitude = 0
         }
         
         if let mapString = dictionary["mapString"] as? String {
@@ -64,6 +72,10 @@ struct StudentInformation {
         if let mediaURL = dictionary["mediaURL"] as? String {
             
             self.mediaURL = mediaURL
+            
+        } else {
+            
+            self.mediaURL = ""
         }
         
         if let objectId = dictionary["objectId"] as? String {
@@ -89,7 +101,6 @@ struct StudentInformation {
     fileprivate func generatePointAnnotationObj() -> MKPointAnnotation {
         
         let annotation = MKPointAnnotation()
-        
         annotation.coordinate = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
         annotation.title = "\(firstName) \(lastName)"
         annotation.subtitle = mediaURL

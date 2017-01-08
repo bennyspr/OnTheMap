@@ -108,8 +108,11 @@ class UdacityAPI: RequestAPIProtocol {
         return method
     }
     
-    func newDataAfterRequest(_ data: NSData) -> NSData {
+    func newDataAfterRequest(_ data: Data) -> Data {
         
-        return data.subdata(with: NSMakeRange(5, data.length - 5)) as NSData /* subset response data! */
+        //return data.subdata(in: NSMakeRange(5, data.length - 5)) as Data /* subset response data! */
+        let range = Range(uncheckedBounds: (5, data.count))
+        
+        return data.subdata(in: range)
     }
 }

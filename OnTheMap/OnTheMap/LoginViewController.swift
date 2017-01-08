@@ -20,7 +20,7 @@ class LoginViewController: TopViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         configureColorsAndStyles()
         
         emailTextField.delegate = self
@@ -38,7 +38,6 @@ class LoginViewController: TopViewController {
         super.viewWillAppear(animated)
         
         emailTextField.text = ""
-        
         passwordTextField.text = ""
     }
 

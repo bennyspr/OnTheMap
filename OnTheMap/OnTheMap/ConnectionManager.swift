@@ -14,7 +14,7 @@ protocol RequestAPIProtocol: class {
     func httpHeaderFields() -> [HeaderFieldForHTTP]
     func httpBody() -> NSDictionary?
     func httpMethod() -> HTTPRequestMethod
-    func newDataAfterRequest(_ data: NSData) -> NSData
+    func newDataAfterRequest(_ data: Data) -> Data
 }
 
 class ConnectionManager: NSObject {
@@ -103,11 +103,13 @@ class ConnectionManager: NSObject {
                 
                 do {
                     
-                    if let data = data {
+                    if var data = data {
                         
-                        let parsedResult = try JSONSerialization.jsonObject(with: requestAPI.newDataAfterRequest(data as NSData) as Data, options: .allowFragments)
+                        data = requestAPI.newDataAfterRequest(data)
                         
-                        completion(parsedResult as AnyObject?, false, errorMessage)
+                        let parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
+                        
+                        completion(parsedResult , false, errorMessage)
                         return
                     }
                 } catch {
@@ -126,23 +128,20 @@ class ConnectionManager: NSObject {
             }
             
             /* 5. Parse the data */
-            let parsedResult: AnyObject!
-            
+            var parsedResult: AnyObject! = nil
+
             /* subset response data! */
-            let newData = requestAPI.newDataAfterRequest(data as NSData)
-            
+            let newData = requestAPI.newDataAfterRequest(data)
+         
             do {
-                parsedResult = try JSONSerialization.jsonObject(with: newData as Data, options: JSONSerialization.ReadingOptions.allowFragments) as AnyObject!
+                
+                parsedResult = try JSONSerialization.jsonObject(with: newData, options: .allowFragments) as AnyObject
+                completion(parsedResult, true, nil)
                 
             } catch {
-                parsedResult = nil
+                print("-> \(error)")
                 completion(nil, false, "Could not parse the data as JSON: '\(data)'")
-                print("Could not parse the data as JSON: '\(data)'")
-                return
             }
-            
-            completion(parsedResult, true, nil)
-
         }
         
         task.resume()

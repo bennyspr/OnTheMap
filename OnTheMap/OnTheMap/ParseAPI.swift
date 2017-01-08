@@ -111,7 +111,7 @@ class ParseAPI: RequestAPIProtocol {
         return method
     }
     
-    func newDataAfterRequest(_ data: NSData) -> NSData {
+    func newDataAfterRequest(_ data: Data) -> Data {
         
         return data
     }
